@@ -104,6 +104,24 @@ EC2        → RDS  (port 3306, source: EC2 security group)
 
 ---
 
+## Production Considerations
+
+This project demonstrates a 3-tier architecture pattern on AWS using Terraform. 
+For a production deployment the following hardening would be applied:
+
+| Area                  | Current State                        | Production Standard                          |
+|-----------------------|--------------------------------------|----------------------------------------------|
+| HTTPS/TLS             | HTTP only on ALB                     | ACM certificate + HTTPS listener on ALB      |
+| Secrets Management    | DB credentials passed as env vars    | AWS Secrets Manager + IAM-based retrieval    |
+| RDS Encryption        | Encryption at rest not enabled       | `storage_encrypted = true` on RDS instance   |
+| RDS Backups           | `skip_final_snapshot = true`         | Backup retention policy + final snapshot     |
+| SSM VPC Endpoints     | SSM traffic routes via NAT Gateway   | VPC Interface Endpoints for SSM              |
+| Monitoring            | No alarms configured                 | CloudWatch alarms for CPU, RDS, ALB metrics  |
+| State Management      | Local state                          | Remote state via S3 + DynamoDB state locking |
+| Multi-AZ RDS          | Single-AZ                            | `multi_az = true` for high availability      |
+| WAF                   | No web application firewall          | AWS WAF attached to ALB                      |
+
+
 ## Prerequisites
 
 - [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.0.0
