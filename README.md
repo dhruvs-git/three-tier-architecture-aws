@@ -65,7 +65,9 @@ three-tier-architecture-aws/
 │   │   ├── main.tf          # Security group, ALB, target group, listener
 │   │   ├── variables.tf
 │   │   └── outputs.tf
-│   ├── ec2/
+│   ├── ├── ec2/
+│   │   ├── scripts/
+│   │   │   └── user_data.sh # Bootstrap script — installs Node.js, starts Express app
 │   │   ├── main.tf          # Security group, IAM role, EC2 instance, TG attachment
 │   │   ├── variables.tf
 │   │   └── outputs.tf
@@ -79,6 +81,7 @@ three-tier-architecture-aws/
 ├── providers.tf             # AWS provider configuration
 ├── versions.tf              # Terraform and provider version constraints
 ├── terraform.tfvars         # Variable values (gitignored)
+├── terraform.tfvars.example # Template for required variables
 └── .gitignore
 ```
 
