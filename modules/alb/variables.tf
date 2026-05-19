@@ -2,13 +2,13 @@
 
 variable "project_name" {
   description = "name prefix for all resources"
-  type = string
+  type        = string
 }
 
 # Needed to attach the ALB security group to the correct VPC
 variable "vpc_id" {
   description = "The ID of the VPC"
-  type = string
+  type        = string
 }
 
 # ALB is placed across these subnets for high availability
@@ -16,6 +16,6 @@ variable "vpc_id" {
 # Receives module.vpc.public_subnet_ids from root module
 variable "public_subnet_ids" {
   description = "The list of public subnets IDs for the ALB"
-  type = list(string)
+  type        = list(string)
 }
 

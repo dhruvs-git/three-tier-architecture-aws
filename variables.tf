@@ -2,7 +2,7 @@
 
 variable "project_name" {
   description = "Name prefix for all resources"
-  type = string
+  type        = string
 }
 
 
@@ -13,25 +13,25 @@ variable "project_name" {
 
 variable "cidr_block" {
   description = "CIDR block for the vpc"
-  type = string
+  type        = string
 }
 
 # One CIDR per AZ — order must match availability_zones list
 variable "public_subnet_cidrs" {
   description = "CIDR for the public subnets"
-  type = list(string)
+  type        = list(string)
 }
 
 # One CIDR per AZ — order must match availability_zones list
 variable "private_subnet_cidrs" {
   description = "CIDR for the private subnets"
-  type = list(string)
+  type        = list(string)
 }
 
 # Must match the length and order of public and private subnet CIDR lists
 variable "availability_zone" {
   description = "List of availability zones"
-  type = list(string)
+  type        = list(string)
 }
 
 
@@ -43,18 +43,18 @@ variable "availability_zone" {
 
 variable "db_name" {
   description = "The name of the db"
-  type = string
+  type        = string
 }
 
 variable "db_username" {
   description = "The database username"
-  type = string
+  type        = string
 }
 
 variable "db_password" {
   description = "The password for the database"
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
 }
 
 # Passed into providers.tf to set the AWS deployment region
