@@ -2,6 +2,6 @@
 # Passed into EC2 module as db_host — app uses this to connect to the database
 output "db_host" {
   description = "The RDS endpoint address"
-  value = aws_db_instance.rds_db.address
+  value       = aws_db_instance.rds_db.address
 }
 
