@@ -11,16 +11,9 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-# Only allows inbound MySQL traffic from EC2 on port 3306
-resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
-  security_group_id            = aws_security_group.rds_sg.id
-  from_port                    = 3306
-  ip_protocol                  = "tcp"
-  to_port                      = 3306
-  referenced_security_group_id = var.ec2_security_group_id
-}
-
 # No egress rule needed — RDS only responds, never initiates connections
+# Ingress rule (EC2 → RDS :3306) is defined at the root level to break the
+# circular dependency between this module and the EC2 module
 
 # DB SUBNET GROUP
 

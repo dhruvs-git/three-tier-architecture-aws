@@ -5,3 +5,8 @@ output "db_host" {
   value       = aws_db_instance.rds_db.address
 }
 
+output "rds_sg_id" {
+  description = "The RDS security group ID — used at root level for the EC2→RDS ingress rule"
+  value       = aws_security_group.rds_sg.id
+}
+

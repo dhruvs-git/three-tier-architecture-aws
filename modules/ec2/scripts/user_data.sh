@@ -359,4 +359,13 @@ APP
 cd /home/ec2-user/app
 npm init -y
 npm install express
+
+# Write DB connection details as environment variables so the app can read them
+cat > /home/ec2-user/app/.env <<ENV
+DB_HOST=${db_host}
+DB_NAME=${db_name}
+DB_USER=${db_username}
+DB_PASSWORD=${db_password}
+ENV
+
 node app.js &
