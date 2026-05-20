@@ -96,8 +96,14 @@ resource "aws_instance" "ec2_app" {
   subnet_id              = var.private_subnet_ids[0]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
-  # Using file function to load the user data - Making the code clean
-  user_data = file("${path.module}/scripts/user_data.sh")
+  # templatefile() substitutes ${db_host}, ${db_name} etc. into the script
+  # file() would silently ignore all variables — the app would never know the DB endpoint
+  user_data = templatefile("${path.module}/scripts/user_data.sh", {
+    db_host     = var.db_host
+    db_name     = var.db_name
+    db_username = var.db_username
+    db_password = var.db_password
+  })
 
 
   tags = {

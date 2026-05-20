@@ -17,12 +17,6 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
-# Used in RDS ingress rule — only allows MySQL traffic from EC2
-variable "ec2_security_group_id" {
-  description = "The ID of the ec2 sg for RDS"
-  type        = string
-}
-
 # Database credentials — defined once at root level
 variable "db_name" {
   description = "The name of the db"

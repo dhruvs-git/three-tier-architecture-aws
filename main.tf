@@ -39,13 +39,28 @@ module "alb" {
 module "rds" {
   source = "./modules/rds"
 
-  project_name          = var.project_name
-  vpc_id                = module.vpc.vpc_id
-  private_subnet_ids    = module.vpc.private_subnet_ids
-  ec2_security_group_id = module.ec2.ec2_security_group_id
-  db_name               = var.db_name
-  db_username           = var.db_username
-  db_password           = var.db_password
+  project_name       = var.project_name
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  db_name            = var.db_name
+  db_username        = var.db_username
+  db_password        = var.db_password
+}
+
+
+# -------------------------------------------------------
+# EC2 → RDS INGRESS RULE
+# Defined here at the root level (not inside the RDS module)
+# to break the circular dependency:
+#   before: rds depended on ec2 (for sg id) AND ec2 depended on rds (for db_host)
+#   now:    ec2 depends on rds only, and this rule runs after both exist
+# -------------------------------------------------------
+resource "aws_vpc_security_group_ingress_rule" "ec2_to_rds" {
+  security_group_id            = module.rds.rds_sg_id
+  referenced_security_group_id = module.ec2.ec2_security_group_id
+  from_port                    = 3306
+  ip_protocol                  = "tcp"
+  to_port                      = 3306
 }
 
 
