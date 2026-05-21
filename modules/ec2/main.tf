@@ -105,6 +105,9 @@ resource "aws_instance" "ec2_app" {
     db_password = var.db_password
   })
 
+  # Ensures the SSM policy is fully attached before EC2 launches
+  # Without this, SSM agent starts without permissions and fails to register
+  depends_on = [aws_iam_role_policy_attachment.ec2_ssm_role]
 
   tags = {
     Name = "${var.project_name}-ec2-app"
