@@ -368,4 +368,24 @@ DB_USER=${db_username}
 DB_PASSWORD=${db_password}
 ENV
 
-node app.js &
+# Create a systemd service so the app starts on every boot and restarts on crash
+# 'node app.js &' is a loose process — it dies on reboot and user_data never runs again
+cat > /etc/systemd/system/nodeapp.service <<'SERVICE'
+[Unit]
+Description=Node.js App
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/ec2-user/app/app.js
+WorkingDirectory=/home/ec2-user/app
+Restart=always
+User=ec2-user
+EnvironmentFile=/home/ec2-user/app/.env
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+
+systemctl daemon-reload
+systemctl enable nodeapp
+systemctl start nodeapp
